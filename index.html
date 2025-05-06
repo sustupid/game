@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center">
+    <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-5xl mx-auto mt-10">
+        <div class="flex flex-col items-center mb-8">
+            <button id="startBtn" class="bg-green-500 cursor-pointer hover:bg-green-600 text-white font-bold py-2 px-6 rounded mb-2">Bắt đầu</button>
+        </div>
+        <div class="flex flex-row gap-8 justify-center">
+            
+            <div class="bg-gray-50 rounded-xl p-6 flex flex-col items-center">
+                <div class="grid grid-cols-4 gap-4 mb-2">
+                    <div class="bg-green-100 text-green-500 flex items-center justify-center rounded h-36 w-36 text-xl font-bold inset-shadow-sm">1</div>
+                    <div class="bg-red-100 text-red-500 flex items-center justify-center rounded h-36 w-36 text-xl font-bold inset-shadow-sm">2</div>
+                    <div class="bg-blue-100 text-blue-500 flex items-center justify-center rounded h-36 w-36 text-xl font-bold inset-shadow-sm">3</div>
+                    <div class="bg-purple-100 text-purple-500 flex items-center justify-center rounded h-36 w-36 text-xl font-bold inset-shadow-sm">4</div>
+                    <div class="bg-yellow-100 text-yellow-500 flex items-center justify-center rounded h-36 w-36 text-xl font-bold inset-shadow-sm">5</div>
+                    <div class="bg-pink-100 text-pink-500 flex items-center justify-center rounded h-36 w-36 text-xl font-bold inset-shadow-sm">6</div>
+                    <div class="bg-indigo-100 text-indigo-500 flex items-center justify-center rounded h-36 w-36 text-xl font-bold inset-shadow-sm">7</div>
+                    <div class="bg-gray-100 text-gray-500 flex items-center justify-center rounded h-36 w-36 text-xl font-bold inset-shadow-sm">8</div>
+                    <div class="bg-emerald-100 text-emerald-500 flex items-center justify-center rounded h-36 w-36 text-xl font-bold inset-shadow-sm">9</div>
+                    <div class="bg-yellow-100 text-yellow-500 flex items-center justify-center rounded h-36 w-36 text-xl font-bold inset-shadow-sm">10</div>
+                    <div class="bg-lime-100 text-lime-500 flex items-center justify-center rounded h-36 w-36 text-xl font-bold inset-shadow-sm">11</div>
+                    <div class="bg-black flex items-center justify-center rounded h-36 w-36"></div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col gap-4">
+                <div class="bg-green-100 rounded-lg p-4 flex flex-col items-center">
+                    <span class="font-bold text-gray-700 text-lg">Đồng Hồ</span>
+                    <span id="timer" class="font-bold text-lg text-2xl">00:00</span>
+                </div>
+                <div class="bg-white rounded-lg p-2 shadow flex flex-col items-center">
+                    <span class="font-bold text-gray-700 text-16px p-2">Hướng Dẫn Di Chuyển</span>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="flex justify-center gap-2">
+                            <div class="bg-gray-100 rounded px-2 py-1 font-bold">↑</div>
+                        </div>
+                        <div class="flex justify-center gap-2">
+                            <div class="bg-gray-100 rounded px-2 py-1 font-bold">←</div>
+                            <div class="bg-gray-100 rounded px-2 py-1 font-bold">↓</div>
+                            <div class="bg-gray-100 rounded px-2 py-1 font-bold">→</div>
+                        </div>
+                        <div class="flex justify-center gap-2 mt-2">
+                            <div class="bg-gray-100 rounded px-2 py-1 font-bold">W</div>
+                        </div>
+                        <div class="flex justify-center gap-2">
+                            <div class="bg-gray-100 rounded px-2 py-1 font-bold">A</div>
+                            <div class="bg-gray-100 rounded px-2 py-1 font-bold">S</div>
+                            <div class="bg-gray-100 rounded px-2 py-1 font-bold">D</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-gray-50 rounded-xl p-4 mt-8">
+            <span class="font-bold text-gray-700 block mb-2 text-center text-lg">Lịch Sử Lượt Chơi</span>
+                <table class="min-w-full bg-gray-100 ">
+                    <thead>
+                        <tr class="bg-gray-200 text-left">
+                            <th class="px-4 py-2 bg-gray-200">#</th>
+                            <th class="px-4 py-2 bg-gray-200 border-s border-gray-500/50">Bước đi</th>
+                            <th class="px-4 py-2 bg-gray-200 border-s border-gray-500/50">Thời Gian</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                    </tbody>
+                </table>
+        </div>
+    </div>
+    <script>
+    let timerInterval;
+    let sec = 0;
+    let isStarted = false;
+
+    function time(sec) {
+        const m = String(Math.floor(sec / 60)).padStart(2, '0');
+        const s = String(sec % 60).padStart(2, '0');
+        return `${m}:${s}`;
+    }
+
+
+    document.getElementById('startBtn').addEventListener('click', function() {
+        if (!isStarted) {
+            // start
+            isStarted = true;
+            this.textContent = 'Kết thúc';
+            this.classList.remove('bg-green-500', 'hover:bg-green-600');
+            this.classList.add('bg-red-500', 'hover:bg-red-600');
+            sec = 0;
+            document.getElementById('timer').textContent = time(sec);
+            if (timerInterval) 
+            clearInterval(timerInterval);
+        
+            timerInterval = setInterval(() => {
+                sec++;
+                document.getElementById('timer').textContent = time(sec);
+            }, 1000);
+        } else {
+            // stop
+            isStarted = false;
+            this.textContent = 'Bắt đầu';
+            this.classList.remove('bg-red-500', 'hover:bg-red-500');
+            this.classList.add('bg-green-500', 'hover:bg-green-500');
+            if (timerInterval) 
+            clearInterval(timerInterval);
+        }
+    });
+    </script>
+</body>
+</html>
