@@ -100,45 +100,7 @@
             timerInterval = setInterval(() => {
                 sec++;
                 document.getElementById('timer').textContent = time(sec);
-            }, 1000);// Lắng nghe phím di chuyển
-            document.addEventListener('keydown', function(e) {
-                // Xác định hướng di chuyển dựa vào phím bấm
-                let direction = null;
-                if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') direction = 'up';
-                if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') direction = 'down';
-                if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') direction = 'left';
-                if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') direction = 'right';
-                if (direction) moveBlankSimple(direction);
-            });
-            
-            function moveBlankSimple(direction) {
-                // Lấy tất cả các ô số trong lưới
-                const tiles = document.querySelectorAll('.grid.grid-cols-4 > div');
-                // Tìm vị trí ô đen (ô trống)
-                let blankIndex = -1;
-                for (let i = 0; i < tiles.length; i++) {
-                    if (tiles[i].textContent.trim() === '') {
-                        blankIndex = i;
-                        break;
-                    }
-                }
-                // Nếu không tìm thấy ô đen thì dừng
-                if (blankIndex === -1) return;
-            
-                // Tìm vị trí cần đổi dựa vào hướng di chuyển
-                let swapIndex = -1;
-                if (direction === 'up' && blankIndex + 4 < 12) swapIndex = blankIndex + 4;
-                if (direction === 'down' && blankIndex - 4 >= 0) swapIndex = blankIndex - 4;
-                if (direction === 'left' && (blankIndex % 4) < 3) swapIndex = blankIndex + 1;
-                if (direction === 'right' && (blankIndex % 4) > 0) swapIndex = blankIndex - 1;
-            
-                // Nếu có ô để đổi thì hoán đổi nội dung giữa hai ô
-                if (swapIndex !== -1) {
-                    let temp = tiles[swapIndex].textContent;
-                    tiles[swapIndex].textContent = '';
-                    tiles[blankIndex].textContent = temp;
-                }
-            }
+            }, 1000);
         } else {
             // stop
             isStarted = false;
@@ -149,46 +111,6 @@
             clearInterval(timerInterval);
         }
     });
-    // Lắng nghe phím di chuyển (A,W,S,D hoặc mũi tên)
-    document.addEventListener('keydown', function(e) {
-        // Xác định hướng di chuyển dựa vào phím bấm
-        let direction = null;
-        if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') direction = 'up';
-        if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') direction = 'down';
-        if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') direction = 'left';
-        if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') direction = 'right';
-        if (direction) moveBlankSimple(direction);
-    });
-
-    // Hàm di chuyển ô đen đơn giản, dễ hiểu cho người mới học
-    function moveBlankSimple(direction) {
-        // Lấy tất cả các ô số trong lưới
-        const tiles = document.querySelectorAll('.grid.grid-cols-4 > div');
-        // Tìm vị trí ô đen (ô trống)
-        let blankIndex = -1;
-        for (let i = 0; i < tiles.length; i++) {
-            if (tiles[i].textContent.trim() === '') {
-                blankIndex = i;
-                break;
-            }
-        }
-        // Nếu không tìm thấy ô đen thì dừng
-        if (blankIndex === -1) return;
-
-        // Tìm vị trí cần đổi dựa vào hướng di chuyển
-        let swapIndex = -1;
-        if (direction === 'up' && blankIndex + 4 < 12) swapIndex = blankIndex + 4;
-        if (direction === 'down' && blankIndex - 4 >= 0) swapIndex = blankIndex - 4;
-        if (direction === 'left' && (blankIndex % 4) < 3) swapIndex = blankIndex + 1;
-        if (direction === 'right' && (blankIndex % 4) > 0) swapIndex = blankIndex - 1;
-
-        // Nếu có ô để đổi thì hoán đổi nội dung giữa hai ô
-        if (swapIndex !== -1) {
-            let temp = tiles[swapIndex].textContent;
-            tiles[swapIndex].textContent = '';
-            tiles[blankIndex].textContent = temp;
-        }
-    }
     </script>
 </body>
 </html>
