@@ -86,10 +86,36 @@
         return `${m}:${s}`;
     }
 
+    const tileContainer = document.querySelector('.grid.grid-cols-4');
+
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+    }
+
+    function shuffleNumbers() {
+        let numbers = [];
+        for (let i = 1; i <= 11; i++) numbers.push(i);
+        shuffleArray(numbers);
+        const tiles = tileContainer.querySelectorAll('div');
+        for (let i = 0; i < 11; i++) {
+            tiles[i].textContent = numbers[i];
+        }
+        tiles[11].textContent = '';
+    }
+
+    function restoreNumbers() {
+        const tiles = tileContainer.querySelectorAll('div');
+        for (let i = 0; i < 11; i++) {
+            tiles[i].textContent = i + 1;
+        }
+        tiles[11].textContent = '';
+    }
 
     document.getElementById('startBtn').addEventListener('click', function() {
         if (!isStarted) {
-            // start
             isStarted = true;
             this.textContent = 'Kết thúc';
             this.classList.remove('bg-green-500', 'hover:bg-green-600');
@@ -104,7 +130,6 @@
                 document.getElementById('timer').textContent = time(sec);
             }, 1000);
         } else {
-            // stop
             isStarted = false;
             this.textContent = 'Bắt đầu';
             this.classList.remove('bg-red-500', 'hover:bg-red-500');
