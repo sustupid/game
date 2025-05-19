@@ -80,7 +80,7 @@
     let sec = 0;
     let isStarted = false;
 
-    function time(sec) {
+    function time(sec) { // 00:00
         const m = String(Math.floor(sec / 60)).padStart(2, '0');
         const s = String(sec % 60).padStart(2, '0');
         return `${m}:${s}`;
@@ -94,7 +94,7 @@
             this.classList.add('bg-red-500', 'hover:bg-red-600');
             sec = 0;
             document.getElementById('timer').textContent = time(sec);
-            if (timerInterval) 
+            if (timerInterval) // nếu có time cũ thì dừng
             clearInterval(timerInterval);
         
             timerInterval = setInterval(() => {
@@ -111,6 +111,40 @@
             clearInterval(timerInterval);
         }
     });
+   
+document.addEventListener('keydown', function(e) {
+
+    let direction = null;
+    if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') direction = 'up';
+    if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') direction = 'down';
+    if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') direction = 'left';
+    if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') direction = 'right';
+    if (direction) moveBlank(direction);
+});
+
+function moveBlank(direction) {
+    const tiles = document.querySelectorAll('.grid.grid-cols-4 > div');
+    let blankIndex = -1;
+    for (let i = 0; i < tiles.length; i++) {
+        if (tiles[i].textContent === '') {
+            blankIndex = i;
+            break;
+        }
+    }
+    if (blankIndex === -1) return;
+
+    let swapIndex = -1;
+    if (direction === 'up' && blankIndex + 4 < 12) swapIndex = blankIndex + 4;
+    if (direction === 'down' && blankIndex - 4 >= 0) swapIndex = blankIndex - 4;
+    if (direction === 'left' && (blankIndex % 4) < 3) swapIndex = blankIndex + 1;
+    if (direction === 'right' && (blankIndex % 4) > 0) swapIndex = blankIndex - 1;
+
+    if (swapIndex !== -1) {
+        let temp = tiles[swapIndex].textContent;
+        tiles[swapIndex].textContent = '';
+        tiles[blankIndex].textContent = temp;
+    }
+}
     </script>
 </body>
 </html>
